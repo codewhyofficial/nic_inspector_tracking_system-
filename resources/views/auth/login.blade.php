@@ -22,7 +22,7 @@
             <!-- user_id -->
             <div>
                 <label for="username" class="block text-sm font-medium text-gray-700">Login-ID:</label>
-                <input type="text" name="userid" id="userid" placeholder="User ID" maxlength="25" tabindex="1" value="{{ old('userid') }}" class=" mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required>
+                <input type="text" name="userid" id="userid" placeholder="User ID" tabindex="1" value="{{ old('userid') }}" class=" mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required>
                 <div id="error-message-username" class="text-sm text-red-600">
                     @error('userid') {{$message}} @enderror
                 </div>

@@ -1,7 +1,10 @@
 <?php
 
 use App\Http\Controllers\CaptchaController;
+use App\Http\Controllers\InspectorController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\MailController;
+use App\Http\Controllers\VisitController;
 use App\Http\Middleware\ValidateToken;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -17,20 +20,12 @@ Route::post('/login', [LoginController::class, 'login']);
 // captcha route
 Route::get('/captcha', [CaptchaController::class, 'generateCaptcha'])->name('captcha');
 
-Route::get('/inspector/add', function(){
-    return view('addInspector');
-});
+// Inspector route 
+Route::get('/inspector/add', [InspectorController::class, 'showAddInspectorPage'])->name('addInspector');
+Route::post('/inspector/add', [InspectorController::class, 'Add'])->name('addInspector');
+Route::get('/inspector/update', [InspectorController::class, 'showUpdateInspectorPage']);
 
-Route::get('/inspector/update', function(){
-    return view('updateInspector');
-});
-
-Route::get('/visit/add', function(){
-    return view('addVisit');
-});
-
-
-Route::get('/visit/update', function(){
-    return view('updateVisit');
-});
+// Visit route
+Route::get('/visit/add', [VisitController::class, 'showAddVisitPage']);
+Route::get('/visit/update', [VisitController::class, 'showUpdateVisitPage']);
 
