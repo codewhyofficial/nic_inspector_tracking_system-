@@ -11,6 +11,11 @@ use App\Http\Middleware\AuthenticateUser;
 use App\Http\Middleware\EnsureAdminRole;
 use App\Http\Middleware\EnsureUserRole;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ForgotPasswordController;
+use App\Http\Controllers\ResetPasswordController;
+
+
+
 
 Route::get('/', function(){ return view('home');})->name('home');
 
@@ -40,3 +45,11 @@ Route::post('/inspector/update/{uiid}', [InspectorController::class, 'Update'])-
 Route::get('/visit/add', [VisitController::class, 'showAddVisitPage']);
 Route::get('/visit/update', [VisitController::class, 'showUpdateVisitPage']);
 
+// password reset
+
+// routes/web.php
+
+Route::get('password/reset', [ForgotPasswordController::class, 'showLinkRequestForm'])->name('password.request');
+Route::post('password/email', [ForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.email');
+Route::get('password/reset/{token}', [ResetPasswordController::class, 'showResetForm'])->name('password.reset');
+Route::post('password/reset', [ResetPasswordController::class, 'reset'])->name('password.update');

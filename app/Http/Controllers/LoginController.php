@@ -60,23 +60,15 @@ class LoginController extends Controller
         // Create an instance of UserLogin and set its attributes
         $loggedInUser = new UserLogin();
         $loggedInUser->user_id = $user[0]->user_id;
+        $loggedInUser->password = $user[0]->password;
+
         // JWT token
         $token = JWTAuth::fromUser($loggedInUser);
 
-        // Store user information in session
-        Session::put('user_id', $user[0]->user_id);
-        Session::put('uiid', $user[0]->UIID);
-        Session::put('role', $user[0]->role);
-        Session::put('name', $user[0]->name);
+        // JWT token in a cookie with an expiration time (240 minutes = 4 hours)
+        $cookie = cookie('jwt', $token, 240);
 
-        // JWT token in a cookie with an expiration time (60 minutes)
-        $cookie = cookie('jwt', $token, 60);
-
-        // Redirect based on role
-        if ($user[0]->role == 'admin') {
-            return redirect()->intended('/admin')->withCookie($cookie);
-        } else {
-            return redirect()->intended('/user')->withCookie($cookie);
-        }
+        // redirect with the cookie set
+        return redirect()->intended('/inspector/add')->withCookie($cookie);
     }
 }

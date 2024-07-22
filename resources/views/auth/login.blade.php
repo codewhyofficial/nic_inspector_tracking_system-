@@ -62,11 +62,15 @@
                 </button>
             </div>
 
+            <!-- Forgot Password Link -->
+            <div class="text-center mt-4">
+                <a href="{{ route('password.request') }}" class="text-indigo-600 hover:text-indigo-800">
+                    Forgot Your Password?
+                </a>
+            </div>
+
         </form>
-
     </div>
-
-
 
     <script>
         document.getElementById('toggle-password').addEventListener('click', function() {
