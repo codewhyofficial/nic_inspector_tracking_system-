@@ -30,7 +30,7 @@ class AuthenticateUser
                 if ($role === 'admin') {
                     return redirect()->route('admin');
                 } elseif ($role === 'user') {
-                    return redirect()->route('user');
+                    return redirect()->route('user', ['uiid' => Session::get('uiid')]);
                 }
             }
 

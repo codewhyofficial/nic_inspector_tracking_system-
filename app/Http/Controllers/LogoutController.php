@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Session;
 
 class LogoutController extends Controller
 {
-    public function handle(Request $request){
+    public function logout(Request $request){
         Session::flush();
         $cookie = Cookie::forget('jwt');
 

@@ -21,10 +21,9 @@ class InspectorController extends Controller
 
     public function showUpdateInspectorPage($uiid)
     {
-        $inspector = DB::selectOne('SELECT * FROM inspector WHERE UIID = ?', [$uiid]);
+        $inspector = DB::selectOne('SELECT * FROM inspector WHERE uiid = ?', [$uiid]);
 
         return view('inspector.updateInspector', compact('inspector'));
-        // return $uiid;
     }
 
     public function Add(Request $request)
@@ -59,7 +58,7 @@ class InspectorController extends Controller
         }
 
         // check if the user exists
-        $existingUser = DB::select('SELECT * FROM user_login WHERE user_id = ?', [$request->userid]);
+        $existingUser = DB::select('SELECT * FROM user_login WHERE email = ?', [$request->userid]);
         if (!empty($existingUser)) {
             return redirect()->route('addInspector')
                 ->withErrors(['userid' => 'This userid already exists'])
@@ -83,10 +82,10 @@ class InspectorController extends Controller
         try {
 
             // Insert into user_login table using raw SQL
-            DB::insert('INSERT INTO user_login (user_id, UIID, password, name) VALUES (?, ?, ?, ?)', [$request->userid, $uiid, $hashedPassword, $request->name]);
+            DB::insert('INSERT INTO user_login (email, uiid, password, name) VALUES (?, ?, ?, ?)', [$request->userid, $uiid, $hashedPassword, $request->name]);
 
             // Now insert into inspector table using raw SQL
-            DB::insert('INSERT INTO inspector (UIID, name, gender, DOB, nationality, place_of_birth, passport_number, UNLP_number, inspector_rank, qualification, professional_experience) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', [
+            DB::insert('INSERT INTO inspector (uiid, name, gender, DOB, nationality, place_of_birth, passport_number, UNLP_number, inspector_rank, qualification, professional_experience) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', [
                 $uiid,
                 $request->name,
                 $request->gender,
@@ -107,12 +106,12 @@ class InspectorController extends Controller
             ];
             Mail::to($request->userid)->send(new AccountCreated($mailData));
 
-            return redirect()->back()->with('success', 'new inspector registered successfully.a');
         } catch (\Exception $e) {
             return redirect()->route('addInspector')
-                ->withErrors(['error' => 'An error occurred while processing your request. Please try again later.'])
-                ->withInput($request->all());
+            ->withErrors(['error' => 'An error occurred while processing your request. Please try again later.'])
+            ->withInput($request->all());
         }
+        return redirect()->route('admin')->with('success', 'new inspector registered successfully.');
     }
 
     public function Update(Request $request)
@@ -159,7 +158,7 @@ class InspectorController extends Controller
                 qualification = ?, 
                 professional_experience = ?, 
                 remarks = ?
-            WHERE UIID = ?',
+            WHERE uiid = ?',
                 [
                     $request->input('name'),
                     $request->input('gender'),
@@ -175,6 +174,9 @@ class InspectorController extends Controller
                     $request->uiid,
                 ]
             );
+
+            DB::update('UPDATE user_login SET name = ? WHERE uiid = ?', [$request->input('name'), $request->uiid]);
+            DB::update('UPDATE inspection SET name = ? WHERE uiid = ?', [$request->input('name'), $request->uiid]);
         } catch (\Exception $e) {
             return redirect()->route('updateInspector', ['uiid' => $request->uiid])
                 ->withErrors(['error' => 'An error occurred while processing your request. Please try again later.'])
@@ -187,7 +189,7 @@ class InspectorController extends Controller
         if (Session::get('role') === 'admin') {
             return redirect()->route('admin')->with('success', 'Inspector details updated successfully.');
         } else {
-            return redirect()->route('user')->with('success', 'Inspector details updated successfully.');
+            return redirect()->route('user', ['uiid' => $request->uiid])->with('success', 'Inspector details updated successfully.');
         }
     }
 }

@@ -11,18 +11,13 @@
 </head>
 
 <body class="">
-
-    @if(Session::get('role') === 'admin')
     @include('nav.adminNav')
-    @else
-    @include('nav.userNav')a
-    @endif
 
     <div class="bg-gray-100 flex flex-col items-center justify-center min-h-screen">
-        <h1 class="text-2xl my-10 font-bold">Add Inspector Details</h1>
+        <h1 class="text-2xl my-3 font-bold">Add Inspector Details</h1>
 
         <div class="bg-white p-8 rounded-lg shadow-md mx-6 relative">
-            
+
             <span class="absolute top-0 right-0 mt-2 mr-4"><a class="text-blue-700 underline font-semibold text-sm hover:text-blue-800" href="#">Check if exists</a></span>
 
             <!-- Importing the arrays from 'app/Custom Data/dropdownOptions.php' -->

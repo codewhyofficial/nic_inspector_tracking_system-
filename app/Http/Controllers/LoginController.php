@@ -42,7 +42,7 @@ class LoginController extends Controller
         }
 
         // Retrieving user
-        $user = DB::select('SELECT * FROM user_login WHERE user_id = ?', [$request->userid]);
+        $user = DB::select('SELECT * FROM user_login WHERE email = ?', [$request->userid]);
 
         // validating user
         if (!$user) {
@@ -56,16 +56,17 @@ class LoginController extends Controller
                 ->withErrors(['password' => 'The provided password is incorrect.'])
                 ->withInput($request->except('password')); // Retain all inputs except password for security reasons
         }
-        
+
         // Create an instance of UserLogin and set its attributes
         $loggedInUser = new UserLogin();
-        $loggedInUser->user_id = $user[0]->user_id;
+        $loggedInUser->email = $user[0]->email;
+        
         // JWT token
         $token = JWTAuth::fromUser($loggedInUser);
 
         // Store user information in session
-        Session::put('user_id', $user[0]->user_id);
-        Session::put('uiid', $user[0]->UIID);
+        Session::put('user_id', $user[0]->email);
+        Session::put('uiid', $user[0]->uiid);
         Session::put('role', $user[0]->role);
         Session::put('name', $user[0]->name);
 
@@ -74,9 +75,9 @@ class LoginController extends Controller
 
         // Redirect based on role
         if ($user[0]->role == 'admin') {
-            return redirect()->intended('/admin')->withCookie($cookie);
+            return redirect()->intended('/admin')->withCookie($cookie)->with('success', 'Logged in Successfully.');
         } else {
-            return redirect()->intended('/user')->withCookie($cookie);
+            return redirect()->route('user', ['uiid' => $user[0]->uiid])->withCookie($cookie)->with('success', 'Logged in Successfully.');
         }
     }
 }

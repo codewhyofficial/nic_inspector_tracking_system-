@@ -1,38 +1,37 @@
 <?php
 
+// app/Models/UserLogin.php
+
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Contracts\Auth\CanResetPassword;
+use Illuminate\Notifications\Notifiable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
+use App\Notifications\CustomResetPassword;
 
-class UserLogin extends Model implements JWTSubject
+class UserLogin extends Authenticatable implements CanResetPassword, JWTSubject
 {
+    use Notifiable;
 
     protected $table = 'user_login';
 
-    // Add any other necessary properties
-    protected $primaryKey = 'user_id'; // Assuming 'user_id' is the primary key
-    public $timestamps = true; // Assuming there are no timestamp fields
+    protected $primaryKey = 'email';
 
-    // Implement the JWTSubject interface methods
+    public $timestamps = false;
 
-    /**
-     * Get the identifier that will be stored in the JWT subject claim.
-     *
-     * @return mixed
-     */
     public function getJWTIdentifier()
     {
         return $this->getKey();
     }
 
-    /**
-     * Return a key value array, containing any custom claims to be added to the JWT.
-     *
-     * @return array
-     */
     public function getJWTCustomClaims()
     {
         return [];
+    }
+
+    public function sendPasswordResetNotification($token)
+    {
+        $this->notify(new CustomResetPassword($token));
     }
 }

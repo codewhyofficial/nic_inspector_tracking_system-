@@ -11,23 +11,20 @@
 </head>
 
 <body class="">
-    @if(Session::get('role') === 'admin')
-    @include('nav.adminNav')
-    @else
-    @include('nav.userNav')
-    @endif
+    
+    @include('nav.userNav', ['user' => $inspector])
 
     <div class="bg-gray-100 flex flex-col items-center justify-center min-h-screen">
-        <h1 class="text-2xl my-10 font-bold">Update Inspector Details</h1>
+        <h1 class="text-2xl my-3 font-bold">Update Inspector Details</h1>
 
-        <div class="bg-white p-8 rounded-lg shadow-md mx-6 relative">
-            
+        <div class="bg-white p-8 rounded-lg shadow-md mx-6 relative md:max-w-5xl">
+
             <!-- Importing the arrays from 'app/Custom Data/dropdownOptions.php' -->
             @php
             $options = include(app_path('Custom Data/dropdownOptions.php'));
             @endphp
 
-            <form method="POST" action="{{ route('updateInspector', ['uiid' => $inspector->UIID]) }}" enctype="multipart/form-data" autocomplete="off">
+            <form method="POST" action="{{ route('updateInspector', ['uiid' => $inspector->uiid]) }}" enctype="multipart/form-data" autocomplete="off">
                 @csrf
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
 
@@ -129,18 +126,8 @@
                         <div class="text-sm font-semibold text-red-600 underline cursor-pointer">View Uploaded Document</div>
                     </div>
 
-                    <!-- isActive -->
-                    <!-- <div>
-                    <label for="isActive" class="block text-sm font-medium text-gray-700"><span class="text-red-600 text-xl">*</span>Active:</label>
-                    <select id="isActive" name="isActive" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                        <option value="yes" {{ old('isActive', $inspector->isActive) == 'yes' ? 'selected' : '' }}>Yes</option>
-                        <option value="no" {{ old('isActive', $inspector->isActive) == 'no' ? 'selected' : '' }}>No</option>
-                    </select>
-                    <div class="text-sm text-red-600">@error('isActive') {{$message}} @enderror</div>
-                </div> -->
-
                     <!-- remarks -->
-                    <div class="col-span-1 md:col-span-3">
+                    <div class="md:col-span-2">
                         <label for="remarks" class="block text-sm font-medium text-gray-700">Remarks:</label>
                         <textarea id="remarks" name="remarks" rows="3" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">{{ old('remarks', $inspector->remarks) }}</textarea>
                         <div class="text-sm text-red-600">@error('remarks') {{$message}} @enderror</div>
@@ -159,8 +146,6 @@
                     </div>
                 </div>
 
-                <!-- hidden UIID field -->
-                <input type="hidden" name="uiid" value="{{ old('uiid', $inspector->UIID) }}" class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
 
                 <div class="mt-6">
                     <button type="submit" tabindex="16" class="w-full py-2 px-4 rounded-md border border-transparent shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
@@ -170,6 +155,14 @@
             </form>
         </div>
     </div>
+
+    <script>
+        function refreshCaptcha() {
+            var img = document.getElementById('captchaimg');
+            var timestamp = new Date().getTime(); // get current timestamp
+            img.src = img.src.split('?')[0] + '?' + timestamp;
+        }
+    </script>
 </body>
 
 </html>
