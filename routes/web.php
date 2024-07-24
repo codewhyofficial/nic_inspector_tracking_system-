@@ -13,6 +13,7 @@ use App\Http\Controllers\{
     InspectionController,
     VisitController,
     ForgotPasswordController,
+    ChangePasswordController,
     ResetPasswordController
 };
 
@@ -32,6 +33,11 @@ Route::middleware(AuthenticateUser::class)->group(function () {
     Route::post('/login', [LoginController::class, 'login']);
     Route::get('/logout', [LogoutController::class, 'logout'])->name('logout');
 });
+
+// Change Password route
+Route::get('/password/change', [ChangePasswordController::class, 'showChangePasswordForm'])->name('password.change')->middleware(AuthenticateUser::class);
+Route::post('/password/change', [ChangePasswordController::class, 'changePassword'])->middleware(AuthenticateUser::class);
+Route::get('/password/skip', [ChangePasswordController::class, 'skipChangePassword'])->name('password.skip')->middleware(AuthenticateUser::class);
 
 // reset password route
 Route::get('password/reset', [ForgotPasswordController::class, 'showLinkRequestForm'])->name('password.request');
@@ -61,8 +67,9 @@ Route::get('/user/{uiid}/inspection/update/{id}', [InspectionController::class, 
 Route::post('/user/{uiid}/inspection/update/{id}', [InspectionController::class, 'Update'])->name('updateInspection')->middleware(AuthenticateUser::class);
 
 // Visit route
-Route::get('/visit/add', [VisitController::class, 'showAddVisitPage']);
-Route::get('/visit/update', [VisitController::class, 'showUpdateVisitPage']);
+Route::get('/user/{uiid}/visit/add', [VisitController::class, 'showAddVisitPage'])->name('addVisit')->middleware([AuthenticateUser::class]);
+Route::post('/user/{uiid}/visit/add', [VisitController::class, 'Add'])->name('addVisit')->middleware([AuthenticateUser::class]);
+Route::get('/user/{uiid}/visit/update/{id}', [VisitController::class, 'showUpdateVisitPage'])->name('updateVisit');
 
 // test - email route
 Route::get('/test-email', function(){
@@ -72,4 +79,9 @@ Route::get('/test-email', function(){
     });
 
     return 'Test email sent!';
+});
+
+
+Route::get('/test-multiselect', function(){
+    return view('demo');
 });

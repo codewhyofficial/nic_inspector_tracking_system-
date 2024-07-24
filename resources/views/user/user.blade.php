@@ -30,6 +30,8 @@
 
     @include('lists.inspections')
 
+    @include('lists.visits')
+
 </body>
 
 </html>

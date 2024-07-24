@@ -11,13 +11,13 @@
 </head>
 
 <body class="">
-    
+
     @include('nav.userNav', ['user' => $inspector])
 
     <div class="bg-gray-100 flex flex-col items-center justify-center min-h-screen">
         <h1 class="text-2xl my-3 font-bold">Update Inspector Details</h1>
 
-        <div class="bg-white p-8 rounded-lg shadow-md mx-6 relative md:max-w-5xl">
+        <div class="bg-white p-8 border border-gray-300 rounded-lg shadow-lg mx-6 relative md:max-w-5xl">
 
             <!-- Importing the arrays from 'app/Custom Data/dropdownOptions.php' -->
             @php
@@ -31,14 +31,14 @@
                     <!-- name -->
                     <div>
                         <label for="name" class="block text-sm font-medium text-gray-700"><span class="text-red-600 text-xl">*</span>Name:</label>
-                        <input type="text" id="name" name="name" required value="{{ old('name', $inspector->name) }}" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                        <input type="text" id="name" name="name" required value="{{ old('name', $inspector->name) }}" class="mt-1 font-semibold block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                         <div class="text-sm text-red-600">@error('name') {{$message}} @enderror</div>
                     </div>
 
                     <!-- gender -->
                     <div>
                         <label for="gender" class="block text-sm font-medium text-gray-700"><span class="text-red-600 text-xl">*</span>Gender:</label>
-                        <select id="gender" name="gender" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                        <select id="gender" name="gender" required class="mt-1 font-semibold block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                             <option value="">Select</option>
                             <option value="male" {{ old('gender', $inspector->gender) == 'male' ? 'selected' : '' }}>Male</option>
                             <option value="female" {{ old('gender', $inspector->gender) == 'female' ? 'selected' : '' }}>Female</option>
@@ -50,14 +50,14 @@
                     <!-- dob -->
                     <div>
                         <label for="dob" class="block text-sm font-medium text-gray-700"><span class="text-red-600 text-xl">*</span>Date of Birth:</label>
-                        <input type="date" id="dob" name="dob" required value="{{ old('dob', $inspector->DOB) }}" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                        <input type="date" id="dob" name="dob" required value="{{ old('dob', $inspector->DOB) }}" class="mt-1 font-semibold block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                         <div class="text-sm text-red-600">@error('dob') {{$message}} @enderror</div>
                     </div>
 
                     <!-- nationality -->
                     <div>
                         <label for="nationality" class="block text-sm font-medium text-gray-700"><span class="text-red-600 text-xl">*</span>Nationality:</label>
-                        <select id="nationality" name="nationality" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                        <select id="nationality" name="nationality" required class="mt-1 font-semibold block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                             <option value="">Select</option>
                             @foreach ($options['nationalities'] as $value)
                             <option value="{{ $value }}" {{ old('nationality', $inspector->nationality) == $value ? 'selected' : '' }}>{{ $value }}</option>
@@ -69,7 +69,7 @@
                     <!-- place of birth -->
                     <div>
                         <label for="placeofbirth" class="block text-sm font-medium text-gray-700"><span class="text-red-600 text-xl">*</span>Place of Birth:</label>
-                        <select id="placeofbirth" name="placeofbirth" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                        <select id="placeofbirth" name="placeofbirth" required class="mt-1 font-semibold block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                             <option value="">Select</option>
                             <option value="city1" {{ old('placeofbirth', $inspector->place_of_birth) == 'city1' ? 'selected' : '' }}>City 1</option>
                             <option value="city2" {{ old('placeofbirth', $inspector->place_of_birth) == 'city2' ? 'selected' : '' }}>City 2</option>
@@ -81,21 +81,21 @@
                     <!-- passport number -->
                     <div>
                         <label for="passport" class="block text-sm font-medium text-gray-700"><span class="text-red-600 text-xl">*</span>Passport Number:</label>
-                        <input type="text" id="passport" name="passport" placeholder="e.g., A1234567" maxlength="9" required value="{{ old('passport', $inspector->passport_number) }}" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                        <input type="text" id="passport" name="passport" placeholder="e.g., A1234567" maxlength="9" required value="{{ old('passport', $inspector->passport_number) }}" class="mt-1 font-semibold block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                         <div class="text-sm text-red-600">@error('passport') {{$message}} @enderror</div>
                     </div>
 
                     <!-- unlp number -->
                     <div>
                         <label for="unlp" class="block text-sm font-medium text-gray-700"><span class="text-red-600 text-xl">*</span>UNLP Number:</label>
-                        <input type="text" id="unlp" name="unlp" placeholder="e.g., AB1234567" maxlength="9" required value="{{ old('unlp', $inspector->UNLP_number) }}" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                        <input type="text" id="unlp" name="unlp" placeholder="e.g., AB1234567" maxlength="9" required value="{{ old('unlp', $inspector->UNLP_number) }}" class="mt-1 font-semibold block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                         <div class="text-sm text-red-600">@error('unlp') {{$message}} @enderror</div>
                     </div>
 
                     <!-- rank -->
                     <div>
                         <label for="rank" class="block text-sm font-medium text-gray-700"><span class="text-red-600 text-xl">*</span>Rank:</label>
-                        <select id="rank" name="rank" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                        <select id="rank" name="rank" required class="mt-1 font-semibold block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                             <option value="">Select</option>
                             @foreach ($options['rank'] as $value)
                             <option value="{{ $value }}" {{ old('rank', $inspector->inspector_rank) == $value ? 'selected' : '' }}>{{ $value }}</option>
@@ -107,21 +107,21 @@
                     <!-- qualification -->
                     <div>
                         <label for="qualification" class="block text-sm font-medium text-gray-700"><span class="text-red-600 text-xl">*</span>Qualification:</label>
-                        <input type="text" id="qualification" name="qualification" required value="{{ old('qualification', $inspector->qualification) }}" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                        <input type="text" id="qualification" name="qualification" required value="{{ old('qualification', $inspector->qualification) }}" class="mt-1 font-semibold block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                         <div class="text-sm text-red-600">@error('qualification') {{$message}} @enderror</div>
                     </div>
 
                     <!-- experience -->
                     <div>
                         <label for="experience" class="block text-sm font-medium text-gray-700"><span class="text-red-600 text-xl">*</span>Professional Experience:</label>
-                        <input type="text" id="experience" name="experience" required value="{{ old('experience', $inspector->professional_experience) }}" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                        <input type="text" id="experience" name="experience" required value="{{ old('experience', $inspector->professional_experience) }}" class="mt-1 font-semibold block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                         <div class="text-sm text-red-600">@error('experience') {{$message}} @enderror</div>
                     </div>
 
                     <!-- clearance certificate -->
                     <div>
                         <label for="clearance_certificate" class="block text-sm font-medium text-gray-700">Clearance Certificate:</label>
-                        <input type="file" id="clearance_certificate" name="clearance_certificate" class="mt-1 block w-full text-gray-700 sm:text-sm">
+                        <input type="file" id="clearance_certificate" name="clearance_certificate" class="mt-1 font-semibold block w-full text-gray-700 sm:text-sm">
                         <div class="text-sm text-red-600">@error('clearance_certificate') {{$message}} @enderror</div>
                         <div class="text-sm font-semibold text-red-600 underline cursor-pointer">View Uploaded Document</div>
                     </div>
@@ -129,21 +129,12 @@
                     <!-- remarks -->
                     <div class="md:col-span-2">
                         <label for="remarks" class="block text-sm font-medium text-gray-700">Remarks:</label>
-                        <textarea id="remarks" name="remarks" rows="3" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">{{ old('remarks', $inspector->remarks) }}</textarea>
+                        <textarea id="remarks" name="remarks" rows="3" class="mt-1 font-semibold block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">{{ old('remarks', $inspector->remarks) }}</textarea>
                         <div class="text-sm text-red-600">@error('remarks') {{$message}} @enderror</div>
                     </div>
 
-                    <div class="mt-4">
-                        <div class="flex items-center space-x-3">
-                            <img src="{{ route('captcha') }}" id='captchaimg' style="border: 1px solid #000;" class="w-40 h-20">
-                            <i class="fas fa-sync cursor-pointer" onclick="refreshCaptcha()"></i>
-                        </div>
-                        <div class="flex items-center space-x-3 mt-3">
-                            <input type="text" id="captcha_code" name="captcha_code" placeholder="Enter captcha code" maxlength="6" tabindex="15" class="block w-64 px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required>
-                            <small class="text-green-600">Captcha code is case sensitive</small>
-                        </div>
-                        <div class="text-sm text-red-600">@error('captcha_code') {{ $message }} @enderror</div>
-                    </div>
+                    <!-- Captcha -->
+                    @include('Components.Captcha')
                 </div>
 
 
@@ -156,13 +147,6 @@
         </div>
     </div>
 
-    <script>
-        function refreshCaptcha() {
-            var img = document.getElementById('captchaimg');
-            var timestamp = new Date().getTime(); // get current timestamp
-            img.src = img.src.split('?')[0] + '?' + timestamp;
-        }
-    </script>
 </body>
 
 </html>

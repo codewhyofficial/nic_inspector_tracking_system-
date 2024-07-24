@@ -73,11 +73,16 @@ class LoginController extends Controller
         // JWT token in a cookie with an expiration time (60 minutes)
         $cookie = cookie('jwt', $token, 60);
 
-        // Redirect based on role
-        if ($user[0]->role == 'admin') {
-            return redirect()->intended('/admin')->withCookie($cookie)->with('success', 'Logged in Successfully.');
+
+        // Redirect based on role and first login status
+        if ($user[0]->is_first_login) {
+            return redirect()->route('password.change')->withCookie($cookie);
         } else {
-            return redirect()->route('user', ['uiid' => $user[0]->uiid])->withCookie($cookie)->with('success', 'Logged in Successfully.');
+            if ($user[0]->role == 'admin') {
+                return redirect()->intended('/admin')->withCookie($cookie)->with('success', 'Logged in Successfully.');
+            } else {
+                return redirect()->route('user', ['uiid' => $user[0]->uiid])->withCookie($cookie)->with('success', 'Logged in Successfully.');
+            }
         }
     }
 }

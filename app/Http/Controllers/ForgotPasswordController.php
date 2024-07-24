@@ -22,7 +22,7 @@ class ForgotPasswordController extends Controller
         ]);
 
         // Retrieve the user based on user_id
-        $user = DB::table('user_login')->where('email', $request->email)->first();
+        $user = DB::select('SELECT * FROM user_login WHERE email = ?', [$request->email]);
 
         if (!$user) {
             return back()->withErrors(['email' => 'User not found.']);

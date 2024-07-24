@@ -1,58 +1,20 @@
-<x-mail::message>
-    {{-- Greeting --}}
-    @if (! empty($greeting))
-    # {{ $greeting }}
-    @else
-    @if ($level === 'error')
-    # @lang('Whoops!')
-    @else
-    # @lang('Hello!')
-    @endif
-    @endif
+@component('mail::message')
+# Hello
 
-    {{-- Intro Lines --}}
-    @foreach ($introLines as $line)
-    {{ $line }}
+You are receiving this email because we received a password reset request for your account.
 
-    @endforeach
+@component('mail::button', ['url' => $actionUrl])
+Reset Password
+@endcomponent
 
-    {{-- Action Button --}}
-    @isset($actionText)
-    <?php
-    $color = match ($level) {
-        'success', 'error' => $level,
-        default => 'primary',
-    };
-    ?>
-    <x-mail::button :url="$actionUrl" :color="$color">
-        {{ $actionText }}
-    </x-mail::button>
-    @endisset
+This password reset link will expire in 60 minutes.
 
-    {{-- Outro Lines --}}
-    @foreach ($outroLines as $line)
-    {{ $line }}
+If you did not request a password reset, no further action is required.
 
-    @endforeach
+Thanks,<br>
+{{ config('app.name') }}
 
-    {{-- Salutation --}}
-    @if (! empty($salutation))
-    {{ $salutation }}
-    @else
-    @lang('Regards'),<br>
-    {{ config('app.name') }}
-    @endif
-
-    {{-- Subcopy --}}
-    @isset($actionText)
-    <x-slot:subcopy>
-        @lang(
-        "If you're having trouble clicking the \":actionText\" button, copy and paste the URL below\n".
-        'into your web browser:',
-        [
-        'actionText' => $actionText,
-        ]
-        ) <span class="break-all">[{{ $displayableActionUrl }}]({{ $actionUrl }})</span>
-    </x-slot:subcopy>
-    @endisset
-</x-mail::message>
+{{-- Display the raw URL --}}
+If you're having trouble clicking the "Reset Password" button, copy and paste the URL below into your web browser:
+{{ $actionUrl }}
+@endcomponent

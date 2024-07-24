@@ -228,4 +228,8 @@ return [
         'Headquarters Staff - Challenge Inspection',
         'Inspection Assistant - Challenge Inspection'
     ],
+    'type_of_inspection' => [
+        'Schedule 2',
+        'Schedule 3'
+    ]
 ];

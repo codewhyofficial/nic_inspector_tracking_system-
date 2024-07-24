@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use App\Models\UserLogin;
@@ -13,7 +12,7 @@ class ResetPasswordController extends Controller
     public function showResetForm(Request $request, $token = null)
     {
         return view('auth.passwords.reset')->with(
-            ['token' => $token, 'userid' => $request->userid]
+            ['token' => $token, 'email' => $request->email]
         );
     }
 
@@ -22,31 +21,44 @@ class ResetPasswordController extends Controller
         // Validate the request
         $request->validate([
             'token' => 'required',
-            'userid' => 'required|email',
+            'email' => 'required|email',
             'password' => 'required|confirmed',
         ]);
 
-        // Find the user by user_id (which is actually the email)
-        $user = UserLogin::where('user_id', $request->userid)->first();
+        // Find the user by email
+        $user = DB::select('SELECT * FROM user_login WHERE email = ?', [$request->email]);
 
         if (!$user) {
-            return redirect()->back()->withErrors(['userid' => 'User with this email does not exist.']);
+            return redirect()->back()->withErrors(['email' => 'User with this email does not exist.']);
         }
 
-        // Check the token
-        $passwordReset = DB::table('password_resets')->where('user_id', $request->userid)->first();
+        // Hash the incoming token for comparison
+        // $hashedToken = $this->hashToken($request->token);
 
-        if (!$passwordReset || $passwordReset->token !== $request->token) {
+        // Check the token
+        $passwordReset = DB::selectOne('SELECT * FROM password_reset_tokens WHERE email = ?', [$request->email]);
+
+        if (!$passwordReset || !Hash::check($request->token, $passwordReset->token)) {
             return redirect()->back()->withErrors(['token' => 'Invalid token']);
         }
 
-        // Reset the password
-        $user->password = Hash::make($request->password);
-        $user->save();
+        // Update the user's password
+        DB::update('UPDATE user_login SET password = ? WHERE email = ?', [$request->password, $request->email]);
 
         // Delete the password reset token
-        DB::table('password_resets')->where('user_id', $request->userid)->delete();
+        DB::delete('DELETE FROM password_reset_tokens WHERE email = ?', [$request->email]);
 
         return redirect('/login')->with('status', 'Password has been reset!');
+    }
+
+    /**
+     * Hash the token using bcrypt.
+     *
+     * @param  string  $token
+     * @return string
+     */
+    private function hashToken($token)
+    {
+        return Hash::make($token);
     }
 }
