@@ -33,7 +33,7 @@
                     <td class="text-left py-2 px-4">{{ $inspection->date_of_joining }}</td>
                     <td class="text-left py-2 px-4">{{ $inspection->status }}</td>
                     <td class="text-left py-2 px-4"><i class="fas fa-edit cursor-pointer hover:text-blue-600" onclick="window.location='{{ route('updateInspection', ['uiid' => $inspection->uiid, 'id' => $inspection->id]) }}'"></i></td>
-                    <td class="text-left py-2 px-4"><i class="fas fa-trash-alt cursor-pointer hover:text-red-600"></i></td>
+                    <td class="text-left py-2 px-4"><i class="fas fa-trash-alt cursor-pointer hover:text-red-600" onclick="event.stopPropagation(); showDeleteConfirmation(this)" data-url="{{ route('deleteInspection', ['uiid' => $inspection->uiid, 'id' => $inspection->id]) }}"></i></td>
                 </tr>
                 @endforeach
             </tbody>
@@ -41,3 +41,5 @@
         @endif
     </div>
 </div>
+
+@include('lists.delete')

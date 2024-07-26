@@ -59,6 +59,7 @@ Route::get('/inspector/add', [InspectorController::class, 'showAddInspectorPage'
 Route::post('/inspector/add', [InspectorController::class, 'Add'])->name('addInspector')->middleware([AuthenticateUser::class, EnsureAdminRole::class]);
 Route::get('/inspector/update/{uiid}', [InspectorController::class, 'showUpdateInspectorPage'])->name('updateInspector')->middleware(AuthenticateUser::class);
 Route::post('/inspector/update/{uiid}', [InspectorController::class, 'Update'])->name('updateInspector')->middleware(AuthenticateUser::class);
+Route::delete('/inspector/delete/{uiid}', [InspectorController::class, 'delete'])->name('deleteInspector')->middleware([AuthenticateUser::class, EnsureAdminRole::class]);
 
 // active status route
 Route::post('/update-active-status/{uiid}', [InspectorController::class, 'updateActiveStatus']);
@@ -68,11 +69,13 @@ Route::get('/user/{uiid}/inspection/add', [InspectionController::class, 'showAdd
 Route::post('/user/{uiid}/inspection/add', [InspectionController::class, 'Add'])->name('addInspection')->middleware(AuthenticateUser::class);
 Route::get('/user/{uiid}/inspection/update/{id}', [InspectionController::class, 'showUpdateInspectionPage'])->name('updateInspection')->middleware(AuthenticateUser::class);
 Route::post('/user/{uiid}/inspection/update/{id}', [InspectionController::class, 'Update'])->name('updateInspection')->middleware(AuthenticateUser::class);
+Route::delete('/user/{uiid}/inspection/delete/{id}', [InspectionController::class, 'delete'])->name('deleteInspection')->middleware(AuthenticateUser::class);
 
 // Visit route
 Route::get('/user/{uiid}/visit/add', [VisitController::class, 'showAddVisitPage'])->name('addVisit')->middleware([AuthenticateUser::class]);
 Route::post('/user/{uiid}/visit/add', [VisitController::class, 'Add'])->name('addVisit')->middleware([AuthenticateUser::class]);
 Route::get('/user/{uiid}/visit/update/{id}', [VisitController::class, 'showUpdateVisitPage'])->name('updateVisit');
+Route::delete('/user/{uiid}/visit/delete/{id}', [VisitController::class, 'delete'])->name('deleteVisit')->middleware(AuthenticateUser::class);
 
 // test - email route
 Route::get('/test-email', function(){

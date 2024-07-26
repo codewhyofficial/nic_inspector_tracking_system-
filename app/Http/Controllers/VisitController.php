@@ -82,4 +82,20 @@ class VisitController extends Controller
         return redirect()->route('user', ['uiid' => $uiid])->with('success', 'Visit details added successfully.');
 
     }
+
+    public function delete($uiid, $id)
+    {
+        try {
+            // Execute the raw SQL query to perform a soft delete
+            $affectedRows = DB::update('UPDATE visit SET deleted_at = NOW() WHERE uiid = ? AND id = ?', [$uiid, $id]);
+
+            if ($affectedRows) {
+                return response()->json(['success' => true, 'message' => 'Record deleted successfully']);
+            } else {
+                return response()->json(['success' => false, 'message' => 'Record not found or already deleted']);
+            }
+        } catch (\Exception $e) {
+            return response()->json(['success' => false, 'message' => 'Failed to delete record']);
+        }
+    }
 }

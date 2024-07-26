@@ -37,7 +37,7 @@
                     <td class="text-left py-2 px-4">{{ $visit->date_time_of_arrival }}</td>
                     <td class="text-left py-2 px-4">{{ $visit->date_time_of_departure }}</td>
                     <td class="text-left py-2 px-4"><i class="fas fa-edit cursor-pointer hover:text-blue-600" onclick="window.location='{{ route('updateVisit', ['uiid' => $visit->uiid, 'id' => $visit->id]) }}'"></i></td>
-                    <td class="text-left py-2 px-4"><i class="fas fa-trash-alt cursor-pointer hover:text-red-600"></i></td>
+                    <td class="text-left py-2 px-4"><i class="fas fa-trash-alt cursor-pointer hover:text-red-600" onclick="event.stopPropagation(); showDeleteConfirmation(this)" data-url="{{ route('deleteVisit', ['uiid' => $visit->uiid, 'id' => $visit->id]) }}"></i></td>
                 </tr>
                 @endforeach
             </tbody>

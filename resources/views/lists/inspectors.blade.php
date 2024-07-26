@@ -39,13 +39,17 @@
                         </label>
                     </td>
                     <td class="text-left py-4 px-4" onclick="event.stopPropagation(); window.location='{{ route('updateInspector', ['uiid' => $user->uiid]) }}'"><i class="fas fa-edit cursor-pointer hover:text-blue-600"></i></td>
-                    <td class="text-left py-4 px-4"><i class="fas fa-trash-alt cursor-pointer hover:text-red-600"></i></td>
+                    <td class="text-left py-4 px-4">
+                        <i class="fas fa-trash-alt cursor-pointer hover:text-red-600" onclick="event.stopPropagation(); showDeleteConfirmation(this)" data-url="{{ route('deleteInspector', ['uiid' => $user->uiid]) }}"></i>
+                    </td>
                 </tr>
                 @endforeach
             </tbody>
         </table>
     </div>
 </div>
+
+@include('lists.delete')
 
 <script>
     document.querySelectorAll('input[type="checkbox"][data-uiid]').forEach(checkbox => {

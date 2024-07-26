@@ -203,4 +203,19 @@ class InspectorController extends Controller
             return response()->json(['success' => false, 'message' => $e->getMessage()]);
         }
     }
+
+    public function delete($uiid){
+        try {
+            // perform a soft delete
+            $affectedRows = DB::update('UPDATE inspector SET deleted_at = NOW() WHERE uiid = ?', [$uiid]);
+
+            if ($affectedRows) {
+                return response()->json(['success' => true, 'message' => 'Record deleted successfully']);
+            } else {
+                return response()->json(['success' => false, 'message' => 'Inspector not found or already deleted']);
+            }
+        } catch (\Exception $e) {
+            return response()->json(['success' => false, 'message' => 'Failed to delete inspector']);
+        }
+    }
 }
