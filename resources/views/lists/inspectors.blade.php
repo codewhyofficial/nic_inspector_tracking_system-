@@ -7,7 +7,7 @@
         </div>
     </div>
     <div>
-        <table class="min-w-full bg-white ">
+        <table class="min-w-full bg-white">
             <thead class="bg-gray-800 text-white">
                 <tr>
                     <th class="text-left py-4 px-4 uppercase font-semibold text-sm">S.no.</th>
@@ -25,14 +25,19 @@
                 @php $sno = 1 @endphp
                 @foreach($users as $user)
                 <tr class="border border-gray-200 hover:bg-gray-100 hover:rounded-md cursor-pointer hover-scale bg-white" onclick="window.location='{{ route('user', ['uiid' => $user->uiid]) }}'">
-
                     <td class="text-left py-4 px-4">{{ $sno++ }}</td>
                     <td class="text-left py-4 px-4">{{ $user->name }}</td>
                     <td class="text-left py-4 px-4">{{ $user->gender }}</td>
                     <td class="text-left py-4 px-4">{{ $user->nationality }}</td>
                     <td class="text-left py-4 px-4">{{ $user->place_of_birth }}</td>
                     <td class="text-left py-4 px-4">{{ $user->inspector_rank }}</td>
-                    <td class="text-left py-4 px-4">{{ $user->isActive }}</td>
+                    <td class="text-left py-4 px-4 " onclick="event.stopPropagation();">
+                        <label class="inline-flex items-center cursor-pointer">
+                            <input type="checkbox" class="sr-only peer" {{ $user->isActive == 'yes' ? 'checked' : '' }} data-uiid="{{ $user->uiid }}">
+                            <div class="relative w-11 h-6 bg-gray-200 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+                            <!-- <span class="ms-3 text-sm font-medium text-gray-400 dark:text-gray-500">{{ $user->isActive }}</span> -->
+                        </label>
+                    </td>
                     <td class="text-left py-4 px-4" onclick="event.stopPropagation(); window.location='{{ route('updateInspector', ['uiid' => $user->uiid]) }}'"><i class="fas fa-edit cursor-pointer hover:text-blue-600"></i></td>
                     <td class="text-left py-4 px-4"><i class="fas fa-trash-alt cursor-pointer hover:text-red-600"></i></td>
                 </tr>
@@ -43,25 +48,36 @@
 </div>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const searchInput = document.getElementById('searchInput');
-        const tableBody = document.getElementById('inspectorTableBody');
-        const rows = tableBody.getElementsByTagName('tr');
+    document.querySelectorAll('input[type="checkbox"][data-uiid]').forEach(checkbox => {
+        checkbox.addEventListener('change', function(event) {
+            const uiid = event.target.dataset.uiid;
+            const isActive = event.target.checked ? 'yes' : 'no';
 
-        searchInput.addEventListener('keyup', function(event) {
-            const searchText = event.target.value.toLowerCase();
-
-            Array.from(rows).forEach(row => {
-                const nameColumn = row.getElementsByTagName('td')[1];
-                if (nameColumn) {
-                    const nameText = nameColumn.textContent.toLowerCase();
-                    if (nameText.includes(searchText)) {
-                        row.style.display = '';
+            fetch(`/update-active-status/${uiid}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    },
+                    body: JSON.stringify({
+                        isActive: isActive
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        event.target.checked = isActive === 'yes';
+                        // event.target.nextElementSibling.textContent = isActive;
                     } else {
-                        row.style.display = 'none';
+                        alert('Failed to update status');
+                        event.target.checked = !event.target.checked; // Revert the change
                     }
-                }
-            });
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('An error occurred');
+                    event.target.checked = !event.target.checked; // Revert the change
+                });
         });
     });
 </script>

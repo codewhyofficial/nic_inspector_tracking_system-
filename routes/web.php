@@ -60,6 +60,9 @@ Route::post('/inspector/add', [InspectorController::class, 'Add'])->name('addIns
 Route::get('/inspector/update/{uiid}', [InspectorController::class, 'showUpdateInspectorPage'])->name('updateInspector')->middleware(AuthenticateUser::class);
 Route::post('/inspector/update/{uiid}', [InspectorController::class, 'Update'])->name('updateInspector')->middleware(AuthenticateUser::class);
 
+// active status route
+Route::post('/update-active-status/{uiid}', [InspectorController::class, 'updateActiveStatus']);
+
 // Inspection route
 Route::get('/user/{uiid}/inspection/add', [InspectionController::class, 'showAddInspectionPage'])->name('addInspection')->middleware(AuthenticateUser::class);
 Route::post('/user/{uiid}/inspection/add', [InspectionController::class, 'Add'])->name('addInspection')->middleware(AuthenticateUser::class);

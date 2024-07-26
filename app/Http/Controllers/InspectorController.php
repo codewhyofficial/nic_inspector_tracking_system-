@@ -192,4 +192,15 @@ class InspectorController extends Controller
             return redirect()->route('user', ['uiid' => $request->uiid])->with('success', 'Inspector details updated successfully.');
         }
     }
+
+    public function updateActiveStatus(Request $request, $uiid){
+        $isActive = $request->input('isActive');
+
+        try {
+            DB::update('UPDATE inspector SET isActive = ? WHERE uiid = ?', [$isActive, $uiid]);
+            return response()->json(['success' => true]);
+        } catch (\Exception $e) {
+            return response()->json(['success' => false, 'message' => $e->getMessage()]);
+        }
+    }
 }
