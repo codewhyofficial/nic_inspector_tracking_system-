@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inspector Visit Form</title>
     @vite('resources/css/app.css')
-    <!-- fontawesome -->
+    <!-- FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 
@@ -80,29 +80,12 @@
                     <input type="datetime-local" id="date_time_of_arrival" name="date_time_of_arrival" value="{{ old('date_time_of_arrival') }}" required class="mt-1 font-semibold block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                     <div class="text-sm text-red-600">@error('date_time_of_arrival') {{$message}} @enderror</div>
                 </div>
+            </div>
 
-                <!-- List of Inspectors -->
-                <div>
-                    <label for="list_of_inspectors" class="block text-sm font-medium text-gray-700"><span class="text-red-600 text-xl">*</span> List of Inspectors:</label>
-                    <select id="list_of_inspectors" name="list_of_inspectors" class="mt-1 font-semibold block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                        <option value="">Select</option>
+            <!-- List of Inspectors -->
+            @include('visit.list-of-inspectors')
 
-                    </select>
-                    <div class="text-sm text-red-600">@error('list_of_inspectors') {{$message}} @enderror</div>
-                    <div id="selected-inspectors" class="mt-2 flex flex-wrap">
-                        <!-- Selected inspectors will be added here dynamically -->
-                    </div>
-                </div>
-
-                <!-- Team Lead -->
-                <div>
-                    <label for="teamlead" class="block text-sm font-medium text-gray-700"><span class="text-red-600 text-xl">*</span> Team Lead:</label>
-                    <select id="teamlead" name="teamlead" class="mt-1 font-semibold block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                        <option value="">Select</option>
-                    </select>
-                    <div class="text-sm text-red-600">@error('teamlead') {{$message}} @enderror</div>
-                </div>
-
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <!-- Date Time of Departure -->
                 <div>
                     <label for="date_time_of_departure" class="block text-sm font-medium text-gray-700"><span class="text-red-600 text-xl">*</span> Date Time of Departure:</label>
@@ -116,12 +99,10 @@
                     <textarea id="remarks" name="remarks" rows="4" class="mt-1 font-semibold block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">{{ old('remarks') }}</textarea>
                     <div class="text-sm text-red-600">@error('remarks') {{$message}} @enderror</div>
                 </div>
-
             </div>
 
             <!-- Captcha -->
             @include('Components.Captcha')
-
 
             <div class="md:col-span-3 mt-2">
                 <button type="submit" class="w-full py-2 px-4 rounded-md border border-transparent shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">

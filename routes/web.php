@@ -78,6 +78,7 @@ Route::delete('/user/{uiid}/inspection/delete/{id}', [InspectionController::clas
 Route::get('/user/{uiid}/visit/add', [VisitController::class, 'showAddVisitPage'])->name('addVisit')->middleware([AuthenticateUser::class]);
 Route::post('/user/{uiid}/visit/add', [VisitController::class, 'Add'])->name('addVisit')->middleware([AuthenticateUser::class]);
 Route::get('/user/{uiid}/visit/update/{id}', [VisitController::class, 'showUpdateVisitPage'])->name('updateVisit');
+Route::post('/user/{uiid}/visit/update/{id}', [VisitController::class, 'update'])->name('updateVisit');
 Route::delete('/user/{uiid}/visit/delete/{id}', [VisitController::class, 'delete'])->name('deleteVisit')->middleware(AuthenticateUser::class);
 
 // test - email route
