@@ -26,6 +26,18 @@ class InspectorController extends Controller
         return view('inspector.updateInspector', compact('inspector'));
     }
 
+    public function checkEmail(Request $request)
+    {
+        $email = $request->input('email');
+        
+        $result = DB::select("SELECT 1 FROM user_login WHERE email = ? LIMIT 1", [$email]);
+
+        // Check if the result is not empty
+        $exists = !empty($result);
+
+        return response()->json(['exists' => $exists]);
+    }
+
     public function Add(Request $request)
     {
         $validator = Validator::make($request->all(), [

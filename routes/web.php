@@ -54,6 +54,9 @@ Route::get('/admin', [AdminController::class, 'index'])->name('admin')->middlewa
 // user route
 Route::get('/user/{uiid}', [UserController::class, 'index'])->name('user')->middleware([AuthenticateUser::class, EnsureUserRole::class]);
 
+// user exists check 
+Route::get('/check-email', [InspectorController::class, 'checkEmail'])->name('checkEmail');
+
 // Inspector route 
 Route::get('/inspector/add', [InspectorController::class, 'showAddInspectorPage'])->name('addInspector')->middleware([AuthenticateUser::class, EnsureAdminRole::class]);
 Route::post('/inspector/add', [InspectorController::class, 'Add'])->name('addInspector')->middleware([AuthenticateUser::class, EnsureAdminRole::class]);

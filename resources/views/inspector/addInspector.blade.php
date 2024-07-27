@@ -18,8 +18,10 @@
 
         <div class="bg-white p-8 border border-gray-300 rounded-lg shadow-lg mx-6 relative">
 
-            <span class="absolute top-0 right-0 mt-2 mr-4"><a class="text-blue-700 underline font-semibold text-sm hover:text-blue-800" href="#">Check if exists</a></span>
-
+            <span class="absolute top-0 right-0 mt-2 mr-4">
+                <a id="open-check-email-modal" class="text-blue-500 font-bold underline text-sm hover:text-blue-600" href="#">Check if exists</a>
+            </span>
+            
             <!-- Importing the arrays from 'app/Custom Data/dropdownOptions.php' -->
             @php
             $options = include(app_path('Custom Data/dropdownOptions.php'));
@@ -154,6 +156,9 @@
             </form>
         </div>
     </div>
+
+
+    @include('Components.check-email-exists')
 </body>
 
 </html>
