@@ -28,7 +28,7 @@ class LoginController extends Controller
         if ($validator->fails()) {
             return redirect()->route('login')
                 ->withErrors($validator)
-                ->withInput($request->except('password')); // Retain all inputs except password for security reasons
+                ->withInput($request->except('password'));
         }
 
         // Captcha validation
@@ -38,7 +38,7 @@ class LoginController extends Controller
             // Captcha validation failed
             return redirect()->route('login')
                 ->withErrors(['captcha_code' => 'The captcha code entered is incorrect.'])
-                ->withInput($request->except('password')); // Retain all inputs except password for security reasons
+                ->withInput($request->except('password'));
         }
 
         // Retrieving user
@@ -48,13 +48,13 @@ class LoginController extends Controller
         if (!$user) {
             return redirect()->route('login')
                 ->withErrors(['userid' => 'The provided credentials do not match our records.'])
-                ->withInput($request->except('password')); // Retain all inputs except password for security reasons
+                ->withInput($request->except('password'));
         }
 
         if ($request->password !== $user[0]->password) {
             return redirect()->route('login')
                 ->withErrors(['password' => 'The provided password is incorrect.'])
-                ->withInput($request->except('password')); // Retain all inputs except password for security reasons
+                ->withInput($request->except('password'));
         }
 
         // Create an instance of UserLogin and set its attributes

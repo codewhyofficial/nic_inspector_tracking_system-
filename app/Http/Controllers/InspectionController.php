@@ -45,7 +45,7 @@ class InspectionController extends Controller
         }
 
         try {
-            // Insert into inspection table using raw SQL
+            // Insert into inspection table
             DB::insert('INSERT INTO inspection (uiid, name, inspection_category, date_of_joining, status, remarks) VALUES (?, ?, ?, ?, ?, ?)', [
                 $uiid,
                 $request->inspector_name,
@@ -104,13 +104,11 @@ class InspectionController extends Controller
             ->withInput($request->all());
         }
 
-
         return redirect()->route('user', ['uiid' => $uiid])->with('success', 'Inspection details updated successfully.');
     }
 
     public function delete($uiid, $id){
         try {
-            // Execute the raw SQL query to perform a soft delete
             $affectedRows = DB::update('UPDATE inspection SET deleted_at = NOW() WHERE uiid = ? AND id = ?', [$uiid, $id]);
 
             if ($affectedRows) {

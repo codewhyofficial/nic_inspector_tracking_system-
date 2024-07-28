@@ -92,11 +92,10 @@ class InspectorController extends Controller
         }
 
         try {
-
-            // Insert into user_login table using raw SQL
+            // Insert into user_login table
             DB::insert('INSERT INTO user_login (email, uiid, password, name) VALUES (?, ?, ?, ?)', [$request->userid, $uiid, $hashedPassword, $request->name]);
 
-            // Now insert into inspector table using raw SQL
+            // Now insert into inspector table
             DB::insert('INSERT INTO inspector (uiid, name, gender, DOB, nationality, place_of_birth, passport_number, UNLP_number, inspector_rank, qualification, professional_experience) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', [
                 $uiid,
                 $request->name,
@@ -155,7 +154,6 @@ class InspectorController extends Controller
                 ->withInput($request->all());
         }
 
-
         try {
             DB::update(
                 'UPDATE inspector SET 
@@ -197,7 +195,6 @@ class InspectorController extends Controller
 
         Session::put('name', $request->name);
 
-        // Redirect based on role
         if (Session::get('role') === 'admin') {
             return redirect()->route('admin')->with('success', 'Inspector details updated successfully.');
         } else {

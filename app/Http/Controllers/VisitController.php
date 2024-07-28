@@ -37,8 +37,8 @@ class VisitController extends Controller
             'site_to_be_inspected' => 'required|string|max:255',
             'point_of_entry' => 'required|string|max:255',
             'date_time_of_arrival' => 'required|date',
-            'list_of_inspectors' => 'required|array', // Expecting an array of UIIDs
-            'team_lead' => 'required|string|exists:inspector,uiid', // Ensure teamlead is a valid UIID
+            'list_of_inspectors' => 'required|array', // array of UIIDs
+            'team_lead' => 'required|string|exists:inspector,uiid',
             'date_time_of_departure' => 'required|date',
             'remarks' => 'nullable|string',
             'captcha_code' => 'required|string',
@@ -59,7 +59,7 @@ class VisitController extends Controller
             // Prepare list_of_inspectors as a comma-separated string
             $list_of_inspectors = implode(',', $request->list_of_inspectors);
 
-            // Insert into visit table using raw SQL
+            // Insert into visit table
             DB::insert('INSERT INTO visit (
                 uiid,
                 purpose_of_visit,
@@ -78,7 +78,7 @@ class VisitController extends Controller
                 $request->site_to_be_inspected,
                 $request->point_of_entry,
                 $request->date_time_of_arrival,
-                $list_of_inspectors, // Comma-separated UIIDs
+                $list_of_inspectors,
                 $request->team_lead,
                 $request->date_time_of_departure,
                 $request->remarks
@@ -94,16 +94,15 @@ class VisitController extends Controller
 
     public function update(Request $request, $uiid, $id)
     {
-        // Validation rules
         $validator = Validator::make($request->all(), [
             'inspector_name' => 'required|string|max:255',
             'purpose_of_visit' => 'required|string|max:255',
             'type_of_inspection' => 'required|string|max:255',
-            'site_of_inspection' => 'required|string|max:255',  // Corrected field
+            'site_of_inspection' => 'required|string|max:255',
             'point_of_entry' => 'required|string|max:255',
             'date_time_of_arrival' => 'required|date',
-            'list_of_inspectors' => 'required|array', // Expecting an array of UIIDs
-            'team_lead' => 'required|string|exists:inspector,uiid', // Ensure teamlead is a valid UIID
+            'list_of_inspectors' => 'required|array',
+            'team_lead' => 'required|string|exists:inspector,uiid',
             'date_time_of_departure' => 'required|date',
             'remarks' => 'nullable|string',
             'captcha_code' => 'required|string',
@@ -121,7 +120,6 @@ class VisitController extends Controller
         }
 
         try {
-            // Prepare list_of_inspectors as a comma-separated string
             $list_of_inspectors = implode(',', $request->list_of_inspectors);
 
             // Update the visit record
@@ -140,7 +138,7 @@ class VisitController extends Controller
                 [
                     $request->purpose_of_visit,
                     $request->type_of_inspection,
-                    $request->site_of_inspection,  // Corrected field
+                    $request->site_of_inspection,
                     $request->point_of_entry,
                     $request->date_time_of_arrival,
                     $list_of_inspectors,
@@ -162,7 +160,6 @@ class VisitController extends Controller
     public function delete($uiid, $id)
     {
         try {
-            // Execute the raw SQL query to perform a soft delete
             $affectedRows = DB::update('UPDATE visit SET deleted_at = NOW() WHERE uiid = ? AND id = ?', [$uiid, $id]);
 
             if ($affectedRows) {

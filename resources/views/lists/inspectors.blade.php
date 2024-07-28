@@ -35,7 +35,6 @@
                         <label class="inline-flex items-center cursor-pointer">
                             <input type="checkbox" class="sr-only peer" {{ $user->isActive == 'yes' ? 'checked' : '' }} data-uiid="{{ $user->uiid }}">
                             <div class="relative w-11 h-6 bg-gray-200 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
-                            <!-- <span class="ms-3 text-sm font-medium text-gray-400 dark:text-gray-500">{{ $user->isActive }}</span> -->
                         </label>
                     </td>
                     <td class="text-left py-4 px-4" onclick="event.stopPropagation(); window.location='{{ route('updateInspector', ['uiid' => $user->uiid]) }}'"><i class="fas fa-edit cursor-pointer hover:text-blue-600"></i></td>
@@ -71,7 +70,6 @@
                 .then(data => {
                     if (data.success) {
                         event.target.checked = isActive === 'yes';
-                        // event.target.nextElementSibling.textContent = isActive;
                     } else {
                         alert('Failed to update status');
                         event.target.checked = !event.target.checked; // Revert the change

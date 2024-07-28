@@ -23,8 +23,6 @@ use App\Http\Middleware\{
     EnsureUserRole
 };
 
-use Illuminate\Support\Facades\Mail;
-
 Route::get('/', function(){ return view('home');})->name('home');
 
 // Authentication routes
@@ -55,7 +53,7 @@ Route::get('/admin', [AdminController::class, 'index'])->name('admin')->middlewa
 Route::get('/user/{uiid}', [UserController::class, 'index'])->name('user')->middleware([AuthenticateUser::class, EnsureUserRole::class]);
 
 // user exists check 
-Route::get('/check-email', [InspectorController::class, 'checkEmail'])->name('checkEmail');
+Route::get('/check-email', [InspectorController::class, 'checkEmail'])->name('checkEmail')->middleware(AuthenticateUser::class);
 
 // Inspector route 
 Route::get('/inspector/add', [InspectorController::class, 'showAddInspectorPage'])->name('addInspector')->middleware([AuthenticateUser::class, EnsureAdminRole::class]);
@@ -65,7 +63,7 @@ Route::post('/inspector/update/{uiid}', [InspectorController::class, 'Update'])-
 Route::delete('/inspector/delete/{uiid}', [InspectorController::class, 'delete'])->name('deleteInspector')->middleware([AuthenticateUser::class, EnsureAdminRole::class]);
 
 // active status route
-Route::post('/update-active-status/{uiid}', [InspectorController::class, 'updateActiveStatus']);
+Route::post('/update-active-status/{uiid}', [InspectorController::class, 'updateActiveStatus'])->middleware([AuthenticateUser::class, EnsureAdminRole::class]);
 
 // Inspection route
 Route::get('/user/{uiid}/inspection/add', [InspectionController::class, 'showAddInspectionPage'])->name('addInspection')->middleware(AuthenticateUser::class);
@@ -77,21 +75,7 @@ Route::delete('/user/{uiid}/inspection/delete/{id}', [InspectionController::clas
 // Visit route
 Route::get('/user/{uiid}/visit/add', [VisitController::class, 'showAddVisitPage'])->name('addVisit')->middleware([AuthenticateUser::class]);
 Route::post('/user/{uiid}/visit/add', [VisitController::class, 'Add'])->name('addVisit')->middleware([AuthenticateUser::class]);
-Route::get('/user/{uiid}/visit/update/{id}', [VisitController::class, 'showUpdateVisitPage'])->name('updateVisit');
-Route::post('/user/{uiid}/visit/update/{id}', [VisitController::class, 'update'])->name('updateVisit');
+Route::get('/user/{uiid}/visit/update/{id}', [VisitController::class, 'showUpdateVisitPage'])->name('updateVisit')->middleware([AuthenticateUser::class]);
+Route::post('/user/{uiid}/visit/update/{id}', [VisitController::class, 'update'])->name('updateVisit')->middleware([AuthenticateUser::class]);
 Route::delete('/user/{uiid}/visit/delete/{id}', [VisitController::class, 'delete'])->name('deleteVisit')->middleware(AuthenticateUser::class);
 
-// test - email route
-Route::get('/test-email', function(){
-    Mail::raw('This is a test email.', function ($message) {
-        $message->to('praveensinghrawat46@gmail.com')
-        ->subject('Test Email');
-    });
-
-    return 'Test email sent!';
-});
-
-
-Route::get('/test-multiselect', function(){
-    return view('demo');
-});

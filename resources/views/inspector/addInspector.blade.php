@@ -157,7 +157,6 @@
         </div>
     </div>
 
-
     @include('Components.check-email-exists')
 </body>
 

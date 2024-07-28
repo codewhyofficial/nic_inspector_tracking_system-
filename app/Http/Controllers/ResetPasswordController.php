@@ -32,9 +32,6 @@ class ResetPasswordController extends Controller
             return redirect()->back()->withErrors(['email' => 'User with this email does not exist.']);
         }
 
-        // Hash the incoming token for comparison
-        // $hashedToken = $this->hashToken($request->token);
-
         // Check the token
         $passwordReset = DB::selectOne('SELECT * FROM password_reset_tokens WHERE email = ?', [$request->email]);
 
@@ -49,16 +46,5 @@ class ResetPasswordController extends Controller
         DB::delete('DELETE FROM password_reset_tokens WHERE email = ?', [$request->email]);
 
         return redirect('/login')->with('status', 'Password has been reset!');
-    }
-
-    /**
-     * Hash the token using bcrypt.
-     *
-     * @param  string  $token
-     * @return string
-     */
-    private function hashToken($token)
-    {
-        return Hash::make($token);
     }
 }

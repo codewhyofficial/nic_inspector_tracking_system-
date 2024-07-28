@@ -30,7 +30,7 @@
 
             <div>
                 <label for="email" class="block text-sm font-medium text-gray-700">Email:</label>
-                <input type="email" name="email" id="email" placeholder="Email" value="{{ $email }}" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required>
+                <input readonly type="email" name="email" id="email" placeholder="Email" value="{{ $email }}" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required>
                 @error('email') <div class="text-sm text-red-600">{{ $message }}</div> @enderror
             </div>
 
@@ -56,7 +56,6 @@
 
     <script>
         function hashPasswords() {
-            // Get the password values
             var password = document.getElementById('password').value;
             var passwordConfirm = document.getElementById('password_confirmation').value;
 
@@ -64,11 +63,8 @@
             var hashedPassword = CryptoJS.SHA256(password).toString();
             var hashedPasswordConfirm = CryptoJS.SHA256(passwordConfirm).toString();
 
-            // Set the hashed values back to the input fields
             document.getElementById('password').value = hashedPassword;
             document.getElementById('password_confirmation').value = hashedPasswordConfirm;
-
-            // Allow form submission
             return true;
         }
     </script>

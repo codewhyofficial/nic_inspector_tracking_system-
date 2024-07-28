@@ -9,7 +9,7 @@ class UserController extends Controller
 {
     public function index($uiid = null)
     {
-        // Fetch the user (if needed)
+        // fetching the user
         $user = DB::selectOne('SELECT uiid, name FROM inspector WHERE uiid = ? AND deleted_at IS NULL', [$uiid]);
 
         // Fetch inspections related to the user excluding soft-deleted records
@@ -30,7 +30,7 @@ class UserController extends Controller
                     ->whereIn('uiid', $inspectorIds)
                     ->get();
             } else {
-                $visit->inspectors_details = collect(); // Ensure it's a collection
+                $visit->inspectors_details = collect();
             }
         }
 

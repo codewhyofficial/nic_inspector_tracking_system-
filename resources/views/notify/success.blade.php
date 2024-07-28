@@ -6,7 +6,6 @@
 </div>
 
 <script>
-    // Hide success message after 4 seconds
     document.addEventListener('DOMContentLoaded', function() {
         var successMessage = document.getElementById('success_message');
         if (successMessage) {

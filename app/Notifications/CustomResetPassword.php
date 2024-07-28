@@ -1,9 +1,5 @@
 <?php
 
-// app/Notifications/CustomResetPassword.php
-
-// app/Notifications/CustomResetPassword.php
-
 namespace App\Notifications;
 
 use Illuminate\Auth\Notifications\ResetPassword as ResetPasswordNotification;
@@ -21,7 +17,7 @@ class CustomResetPassword extends ResetPasswordNotification implements ShouldQue
 
         return (new MailMessage)
             ->subject('Your Password Reset Link')
-            ->view('vendor.notifications.email', [ // Update the view name to point to your template
+            ->view('vendor.notifications.email', [
                 'greeting' => 'Hello!',
                 'level' => 'primary',
                 'introLines' => [

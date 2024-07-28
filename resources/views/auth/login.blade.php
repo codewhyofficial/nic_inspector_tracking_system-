@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login Page</title>
+    <title>Login - Inspector Tracking System</title>
     @vite('resources/css/app.css')
     <!-- fontawesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
@@ -68,7 +68,6 @@
                     Forgot Your Password?
                 </a>
             </div>
-
 
         </form>
 
